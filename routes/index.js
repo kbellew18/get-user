@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+var request = require('request');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -23,6 +24,7 @@ router.get('/newuser', function(req, res) {
 });
 
 
+var webhook = 'https://hooks.slack.com/services/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';
 
 /* POST to Add User Service */
 router.post('/adduser', function(req, res) {
@@ -41,7 +43,9 @@ router.post('/adduser', function(req, res) {
     collection.insert({
         "firstname" : userFirstName,
         "lastname" : userLastName
-    }, function (err, doc) {
+    }, 
+
+    function (err, doc) {
         if (err) {
             // If it failed, return error
             res.send("There was a problem adding the information to the database.");
@@ -51,6 +55,9 @@ router.post('/adduser', function(req, res) {
             res.redirect("userlist");
         }
     });
+
+    request.post(webhook, {"text": "test"});
+
 });
 
 
