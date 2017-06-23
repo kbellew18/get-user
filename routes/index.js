@@ -24,7 +24,7 @@ router.get('/newuser', function(req, res) {
 });
 
 
-var webhook = 'https://hooks.slack.com/services/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';
+let slackURL = 'https://hooks.slack.com/services/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';
 
 /* POST to Add User Service */
 router.post('/adduser', function(req, res) {
@@ -56,7 +56,18 @@ router.post('/adduser', function(req, res) {
         }
     });
 
-    request.post(webhook, {"text": "test"});
+    //request.post(webhook, {"text": "test"});
+
+    request({
+  		json: true,
+  		method: 'POST',
+  		body: {
+    		text: "Welcome to Slack " + userFirstName + " " + userLastName
+  		},
+  		url: slackURL
+	}, function (err, res, body) {
+  		console.log('body', body);
+	})
 
 });
 
