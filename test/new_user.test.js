@@ -12,15 +12,15 @@ describe('New User confirmation', function(){
 
   it ('it redirects to a new page', function(done){
     request(app).post('/adduser')
-      .send({firstname: 'Test', lastname: 'Test'})
+      .send({firstname: 'first', lastname: 'last'})
       .expect(302)
       .expect('Location', /userlist/, function(){
         request(app).get('/userlist')
           .expect(200)
           .expect(/User List/, done)
           .expect(function(res){
-            res.body.firstname = 'Test';
-            res.body.lastname = 'Test';
+            res.body.firstname = 'first';
+            res.body.lastname = 'last';
           })
         })
       });
