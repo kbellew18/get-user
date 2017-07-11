@@ -1,27 +1,53 @@
-var request = require('supertest');
+var request = require('request');
 var make_requests = require('../make_requests');
-// var expect = require('chai').expect;
 var app = require('../app');
+var assert = require('assert');
+
+const newUser = {
+  url : 'http://localhost:3000/newuser',
+  method : 'GET'
+}
+
+const addUser = {
+  url : 'http://localhost:3000/adduser',
+  method : 'POST',
+  body : {firstname: 'test', lastname: 'user'},
+  json : true
+}
+
+const userList = {
+  url : 'http://localhost:3000/userlist',
+  method : 'GET'
+}
 
 describe('New User confirmation', function(){
-  it ('allows a user to enter their first and last name', function(done){
-    request(app).get('/newuser')
-      .expect(200)
-      .expect(/Add New User/, done)
+  it ('returns status 200', function(done){
+    assert.ok(1);
+    request(newUser, function(err, res){
+        console.log(res.statusCode);
+        assert.equal(res.statusCode, 200);
+        done();
       });
+    });
 
-  it ('it redirects to a new page', function(done){
-    request(app).post('/adduser')
-      .send({firstname: 'first', lastname: 'last'})
-      .expect(302)
-      .expect('Location', /userlist/, function(){
-        request(app).get('/userlist')
-          .expect(200)
-          .expect(/User List/, done)
-          .expect(function(res){
-            res.body.firstname = 'first';
-            res.body.lastname = 'last';
-          })
-        })
-      });
+  it ('redirects to a new page after submitting', function(done){
+    assert.ok(1);
+    request(addUser, function(err,res){
+      console.log(res.statusCode);
+      assert.equal(res.statusCode, 302);
+      // if (res.body.firstname !== 'test') throw new Error("not the right name");
+      // assert.equal(res.body, 'test user');
+      done();
+    });
+  })
+
+  it ('returns status 200 after redirecting', function(done){
+    assert.ok(1);
+    request(userList, function(err, res){
+      console.log(res.statusCode);
+      assert.equal(res.statusCode, 200);
+      done();
+    });
+
+  });
 });

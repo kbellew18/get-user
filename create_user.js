@@ -16,9 +16,7 @@ exports.create = function (req, res){
     collection.insert({
       'firstname' : userFirstName,
       'lastname' : userLastName
-    },
-
-    function(err, doc) {
+    }, function(err, doc) {
       if (err){
         res.send('There was a problem adding the information to the database.');
       }

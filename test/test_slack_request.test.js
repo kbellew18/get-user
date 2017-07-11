@@ -1,28 +1,27 @@
-var request = require('supertest');
-var make_requests = require('../make_requests');
-// var expect = require('chai').expect;
-var app = require('../app');
-var create_user = require('../create_user');
-var express = require('express');
-
-var router = express.Router();
+var request = require('request');
+var assert = require('assert');
 
 var slackURL = 'https://hooks.slack.com/services/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';
 
 describe('New User API', function(){
 	describe('Slack request confirmation',function(){
-		it("sends a request with a new user's first and last name to slack", function(done){
-			request(app).post('/adduser')
-				make_requests.send(slackURL, 'first', 'test');
+		it ('Slack responds in an expected way', function(done){
+			assert.ok(1);
+			request({
+				url : slackURL,
+				method : 'POST',
+				body : {text: "Welcome to Slack "},
+				json : true
 
-			// request(make_requests)
-			// 	.post(slackURL, 'slack', 'test')
-				// .send({firstname: 'slack', lastname: 'test'})
-				// .expect(302)
-			console.log('here');
-			done();
-			console.log('here2');
+			}, function(err, res){
+				console.log(res.body);
+				assert.equal(res.body, 'ok');
+				done();
+			})
+		})
 
-			});
 		});
 	});
+
+	//write server side functions and tests
+	//rewrite the supertest stuff into assert/mocha
