@@ -1,6 +1,9 @@
 var request = require('request');
 var assert = require('assert');
 
+var express = require('express');
+var router = express.Router();
+
 var mongo = require('mongodb');
 var monk = require('monk');
 var db = monk('127.0.0.1:27017/getUser');
@@ -15,10 +18,11 @@ describe('Database Test', function(){
       'firstname' : 'database',
       'lastname' : 'test'
     })
+    system.log(collection);
 
-    assert.equal('database', function(collection){
-      collection.find({})
-    });
+    // assert.equal('database', function(collection){
+    //   collection.find({})
+    // });
 
   });
 
